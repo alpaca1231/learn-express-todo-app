@@ -7,4 +7,11 @@ RUN npm install
 COPY . .
 
 EXPOSE 3000
-CMD npm run dev
+ARG NODE_ENV
+ENV NODE_ENV=${NODE_ENV}
+
+CMD if [ "$NODE_ENV" = "development" ] ; then \
+      npm run dev ; \
+    else \
+      npm run build && npm run start ; \
+    fi
