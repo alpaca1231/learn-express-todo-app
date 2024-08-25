@@ -8,8 +8,8 @@ services:
         NODE_ENV: ${NODE_ENV:-development}
     environment:
       NODE_ENV: ${NODE_ENV:-development}
-      POSTGRES_PASSWORD_FILE: /run/secrets/db-password
-      POSTGRES_DB: todo
+      POSTGRES_PASSWORD_FILE: ${POSTGRES_PASSWORD_FILE:-/run/secrets/db-password}
+      POSTGRES_DB: ${POSTGRES_DB:-todo}
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
