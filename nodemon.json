@@ -1,5 +1,6 @@
 {
   "watch": ["src/**/*"],
   "ext": "ts",
-  "exec": "ts-node src/index.ts"
+  "ignore": ["node_modules", "dist"],
+  "exec": "node -r ts-node/register -r tsconfig-paths/register --env-file=.env ./src/index.ts"
 }

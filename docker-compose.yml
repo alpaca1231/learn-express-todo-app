@@ -8,8 +8,48 @@ services:
         NODE_ENV: ${NODE_ENV:-development}
     environment:
       NODE_ENV: ${NODE_ENV:-development}
+      DB_USER: ${DB_USER:-postgres}
+      DB_HOST: ${DB_HOST:-db}
+      DB_NAME: ${DB_NAME:-todo}
+      DB_PASSWORD: ${DB_PASSWORD:-password}
+      DB_PORT: ${DB_PORT:-5432}
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
     ports:
       - 3000:3000
+    depends_on:
+      - db
+    secrets:
+      - db_password
+
+  db:
+    build:
+      context: ./db
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_HOST: ${POSTGRES_HOST:-db}
+      POSTGRES_PORT: ${POSTGRES_PORT:-5432}
+      POSTGRES_PASSWORD_FILE: /run/secrets/db_password
+      POSTGRES_DB: ${POSTGRES_DB:-todo}
+    volumes:
+      - db_data:/var/lib/postgresql/data # データの永続化
+      - ./db/sql:/docker-entrypoint-initdb.d
+    secrets:
+      - db_password
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+
+secrets:
+  db_password:
+    file: db/password.txt
+
+volumes:
+  db_data:
