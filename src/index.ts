@@ -1,11 +1,13 @@
 import express from 'express';
+import todoRoutes from './interfaces/routes/todoRoutes';
+
 const app = express();
+app.use(express.json());
+
+app.use('/api', todoRoutes);
+
 const port = process.env.PORT || 3000;
 
-app.get('/', (req, res) => {
-  res.send('Hello World!');
-});
-
 app.listen(port, () => {
-  console.log(`listening on port http://localhost:${port}/`);
+  console.log(`Server is running on port http://localhost:${port}/`);
 });
