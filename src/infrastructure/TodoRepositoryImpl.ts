@@ -12,7 +12,7 @@ export class PostgresTodoRepository implements TodoRepository {
   }
 
   async findById(id: string): Promise<Todo | null> {
-    const result = await this.pool.query('SELECT * FROM tasks WHERE id = $1', [
+    const result = await this.pool.query('SELECT * FROM todos WHERE id = $1', [
       id,
     ]);
     if (result.rows.length === 0) {
@@ -31,7 +31,7 @@ export class PostgresTodoRepository implements TodoRepository {
   }
 
   async findAll(): Promise<Todo[]> {
-    const result = await this.pool.query('SELECT * FROM tasks');
+    const result = await this.pool.query('SELECT * FROM todos');
     return result.rows.map(
       (row) =>
         new Todo(
@@ -48,7 +48,7 @@ export class PostgresTodoRepository implements TodoRepository {
 
   async save(todo: Todo): Promise<void> {
     await this.pool.query(
-      'INSERT INTO tasks (id, title, is_completed, due_date, created_at, updated_at, deleted_at) VALUES ($1, $2, $3, $4, $5, $6, $7)',
+      'INSERT INTO todos (id, title, is_completed, due_date, created_at, updated_at, deleted_at) VALUES ($1, $2, $3, $4, $5, $6, $7)',
       [
         todo.getId(),
         todo.getTitle(),
@@ -62,6 +62,6 @@ export class PostgresTodoRepository implements TodoRepository {
   }
 
   async deleteById(id: string): Promise<void> {
-    await this.pool.query('DELETE FROM tasks WHERE id = $1', [id]);
+    await this.pool.query('DELETE FROM todos WHERE id = $1', [id]);
   }
 }

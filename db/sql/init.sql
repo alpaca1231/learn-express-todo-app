@@ -1,5 +1,5 @@
--- tasksテーブルの作成
-CREATE TABLE IF NOT EXISTS tasks (
+-- todosテーブルの作成
+CREATE TABLE IF NOT EXISTS todos (
     id SERIAL PRIMARY KEY,               -- タスクの一意な識別子
     title VARCHAR(255) NOT NULL,         -- タスクのタイトル
     is_completed BOOLEAN DEFAULT FALSE,  -- タスクが完了したかどうかのフラグ
@@ -9,11 +9,11 @@ CREATE TABLE IF NOT EXISTS tasks (
     deleted_at TIMESTAMP DEFAULT NULL   -- タスクの削除日時
 );
 
--- tasksテーブルのdue_dateカラムにインデックスを追加
-CREATE INDEX IF NOT EXISTS idx_tasks_due_date ON tasks(due_date);
+-- todosテーブルのdue_dateカラムにインデックスを追加
+CREATE INDEX IF NOT EXISTS idx_todos_due_date ON todos(due_date);
 
--- tasksテーブルのis_completedカラムにインデックスを追加
-CREATE INDEX IF NOT EXISTS idx_tasks_is_completed ON tasks(is_completed);
+-- todosテーブルのis_completedカラムにインデックスを追加
+CREATE INDEX IF NOT EXISTS idx_todos_is_completed ON todos(is_completed);
 
 -- データがある場合の初期データの挿入
-INSERT INTO tasks (title, is_completed, due_date) VALUES ('初めてのタスク', FALSE, '2024-12-31');
+INSERT INTO todos (title, is_completed, due_date) VALUES ('初めてのタスク', FALSE, '2024-12-31');
